@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { ContactsList } from './ContactsList/ContactsList';
-import storage from './storage';
+import { save, load } from './storage';
 
 const CONTACTS_KEY = 'contacts';
 
@@ -14,8 +14,8 @@ export class App extends Component {
   };
 
   componentDidMount() {
-    if (storage.load(CONTACTS_KEY)) {
-      this.setState({ contacts: storage.load(CONTACTS_KEY) });
+    if (load(CONTACTS_KEY)) {
+      this.setState({ contacts: load(CONTACTS_KEY) });
     }
   }
 
@@ -33,7 +33,7 @@ export class App extends Component {
         };
       },
       () => {
-        storage.save(CONTACTS_KEY, this.state.contacts);
+        save(CONTACTS_KEY, this.state.contacts);
       }
     );
   };
@@ -46,7 +46,7 @@ export class App extends Component {
         };
       },
       () => {
-        storage.save(CONTACTS_KEY, this.state.contacts);
+        save(CONTACTS_KEY, this.state.contacts);
       }
     );
   };
