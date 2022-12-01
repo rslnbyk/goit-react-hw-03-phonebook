@@ -7,11 +7,12 @@ export const save = (key, value) => {
   }
 };
 
-export const load = key => {
+export const load = (key, initialState = []) => {
   try {
     const serializedState = localStorage.getItem(key);
-    return serializedState === null ? undefined : JSON.parse(serializedState);
+    return JSON.parse(serializedState) ?? initialState;
   } catch (error) {
     console.error('Get state error: ', error.message);
+    return initialState;
   }
 };

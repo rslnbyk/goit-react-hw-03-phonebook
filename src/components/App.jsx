@@ -14,9 +14,11 @@ export class App extends Component {
   };
 
   componentDidMount() {
-    if (load(CONTACTS_KEY)) {
-      this.setState({ contacts: load(CONTACTS_KEY) });
-    }
+    this.setState({ contacts: load(CONTACTS_KEY) });
+  }
+
+  componentDidUpdate() {
+    save(CONTACTS_KEY, this.state.contacts);
   }
 
   changeContacts = ({ name, number }) => {
@@ -26,29 +28,19 @@ export class App extends Component {
         return;
       }
     }
-    this.setState(
-      prev => {
-        return {
-          contacts: [...prev.contacts, { id: nanoid(), name, number }],
-        };
-      },
-      () => {
-        save(CONTACTS_KEY, this.state.contacts);
-      }
-    );
+    this.setState(prev => {
+      return {
+        contacts: [...prev.contacts, { id: nanoid(), name, number }],
+      };
+    });
   };
 
   deleteContact = id => {
-    this.setState(
-      prev => {
-        return {
-          contacts: prev.contacts.filter(cont => cont.id !== id),
-        };
-      },
-      () => {
-        save(CONTACTS_KEY, this.state.contacts);
-      }
-    );
+    this.setState(prev => {
+      return {
+        contacts: prev.contacts.filter(cont => cont.id !== id),
+      };
+    });
   };
 
   setFilter = filter => {
